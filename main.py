@@ -9,7 +9,8 @@ class Ui(QtWidgets.QMainWindow):
     def __init__(self):
         super().__init__()
         self.window = None
-        GPIO.setmode(GPIO.BOARD)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(13, GPIO.OUT)
         self.setWindowFlag(Qt.FramelessWindowHint)
         self.mainApp()
 

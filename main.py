@@ -56,6 +56,9 @@ class Ui(QtWidgets.QMainWindow):
         super(Ui, self).__init__()
         self.window = uic.loadUi('ui/main.ui', self)
 
+        self.getClock()
+        self.getLanguage()
+
         self.window.timeLabel = self.findChild(QLabel, 'timeLabel')
 
         self.window.clockButton = self.findChild(QPushButton, 'clockButton')
@@ -94,8 +97,6 @@ class Ui(QtWidgets.QMainWindow):
         self.window.languageButton = self.findChild(QPushButton, 'languageButton')
         self.window.languageButton.clicked.connect(self.languageApp)
 
-        self.getClock()
-        self.getLanguage()
         if self.language == 1:
             self.window.languageButton.setText('EN')
         elif self.language == 2:
@@ -217,8 +218,8 @@ class Ui(QtWidgets.QMainWindow):
 
         self.window.minusButtons1 = []
 
-        t = (datetime.now() + timedelta(seconds=self.clock)).strftime('%H%M%S')
-        for i in range(6):
+        t = (datetime.now() + timedelta(seconds=self.clock)).strftime('%H%M')
+        for i in range(4):
             self.window.plusButtons1.append(self.findChild(QPushButton, 'plusButton1' + str(i)))
             self.window.minusButtons1.append(self.findChild(QPushButton, 'minusButton1' + str(i)))
             self.window.numLabels1.append(self.findChild(QLabel, 'numLabel1' + str(i)))
@@ -285,7 +286,7 @@ class Ui(QtWidgets.QMainWindow):
         t0 = ''
         for nl in self.window.numLabels1:
             t0 += nl.text()
-        t0 = int(t0[:2]) * 3600 + int(t0[2:4]) * 60 + int(t0[4:])
+        t0 = int(t0[:2]) * 3600 + int(t0[2:4]) * 60
         t1 = datetime.now().strftime('%H%M%S')
         t1 = int(t1[:2]) * 3600 + int(t1[2:4]) * 60 + int(t1[4:])
         self.clock = (t0 - t1) % 86400
@@ -294,7 +295,7 @@ class Ui(QtWidgets.QMainWindow):
         self.mainApp()
 
     def updateStopwatch(self):
-        ms = 30000 - self.timerTouch.remainingTime()
+        ms = abs(30000 - self.timerTouch.remainingTime())
         self.window.timeLabel.setText(f'{format(ms / 1000, ".2f")}')
 
     def touchButtonPressed(self):

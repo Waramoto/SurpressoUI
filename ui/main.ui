@@ -526,7 +526,7 @@ QPushButton:pressed
            </font>
           </property>
           <property name="styleSheet">
-           <string notr="true">color: rgb(255, 255, 255);</string>
+           <string notr="true">color: rgb(35, 31, 32);</string>
           </property>
           <property name="text">
            <string>0.00</string>

@@ -1,5 +1,5 @@
 import sys
-# import RPi.GPIO as GPIO
+import RPi.GPIO as GPIO
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QPushButton, QLabel
@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
-        # GPIO.setmode(GPIO.BCM)
-        # GPIO.setup(13, GPIO.OUT)
+        GPIO.setmode(GPIO.BCM)
+        GPIO.setup(13, GPIO.OUT)
 
         super(Ui, self).__init__()
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -487,13 +487,13 @@ class Ui(QtWidgets.QMainWindow):
 
     @staticmethod
     def sendSignal():
-        # GPIO.output(13, True)
-        print(1)
+        GPIO.output(13, True)
+        # print(1)
 
     @staticmethod
     def stopSendSignal():
-        # GPIO.output(13, False)
-        print(0)
+        GPIO.output(13, False)
+        # print(0)
 
 
 def main():

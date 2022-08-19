@@ -78,7 +78,7 @@
 
 QPushButton:pressed 
 {
-    background-color:  rgb(235, 235, 235);
+    background-color:  rgb(200, 200, 200);
 }</string>
         </property>
         <property name="text">
@@ -192,7 +192,7 @@ QPushButton:pressed
 
 QPushButton:pressed 
 {
-    background-color:  rgb(235, 235, 235);
+    background-color:  rgb(200, 200, 200);
 }</string>
           </property>
           <property name="text">
@@ -280,7 +280,7 @@ QPushButton:pressed
 
 QPushButton:pressed 
 {
-    background-color:  rgb(235, 235, 235);
+    background-color:  rgb(200, 200, 200);
 }</string>
           </property>
           <property name="text">
@@ -368,7 +368,7 @@ QPushButton:pressed
 
 QPushButton:pressed 
 {
-    background-color:  rgb(235, 235, 235);
+    background-color:  rgb(200, 200, 200);
 }</string>
           </property>
           <property name="text">

@@ -1,5 +1,5 @@
 import sys
-import RPi.GPIO as GPIO
+# import RPi.GPIO as GPIO
 from PyQt5 import QtWidgets, uic
 from PyQt5.QtCore import Qt, QTimer
 from PyQt5.QtWidgets import QPushButton, QLabel
@@ -9,8 +9,8 @@ from datetime import datetime, timedelta
 
 class Ui(QtWidgets.QMainWindow):
     def __init__(self):
-        GPIO.setmode(GPIO.BCM)
-        GPIO.setup(13, GPIO.OUT)
+        # GPIO.setmode(GPIO.BCM)
+        # GPIO.setup(13, GPIO.OUT)
 
         super(Ui, self).__init__()
         self.setWindowFlag(Qt.FramelessWindowHint)
@@ -60,6 +60,7 @@ class Ui(QtWidgets.QMainWindow):
         self.getLanguage()
 
         self.window.timeLabel = self.findChild(QLabel, 'timeLabel')
+        self.window.timeLabel.setStyleSheet('color: rgb(35, 31, 32);')
 
         self.window.clockButton = self.findChild(QPushButton, 'clockButton')
         self.window.clockButton.setText((datetime.now() + timedelta(seconds=self.clock)).strftime('%H:%M:%S'))
@@ -72,7 +73,7 @@ class Ui(QtWidgets.QMainWindow):
         self.window.oneCupButton.clicked.connect(self.oneCupClick)
         if self.oneCupClicked:
             self.window.oneCupButton.setStyleSheet('QPushButton {'
-                                                   'background-color: rgb(235, 235, 235);'
+                                                   'background-color: rgb(200, 200, 200);'
                                                    'color: rgb(0, 0, 0); border-radius:  80px;'
                                                    'border-style: solid; border-width: 15px;'
                                                    'border-color: rgb(254, 205, 84);'
@@ -82,7 +83,7 @@ class Ui(QtWidgets.QMainWindow):
         self.window.twoCupsButton.clicked.connect(self.twoCupsClick)
         if self.twoCupsClicked:
             self.window.twoCupsButton.setStyleSheet('QPushButton {'
-                                                    'background-color: rgb(235, 235, 235);'
+                                                    'background-color: rgb(200, 200, 200);'
                                                     'color: rgb(0, 0, 0); border-radius:  80px;'
                                                     'border-style: solid; border-width: 15px;'
                                                     'border-color: rgb(254, 205, 84);'
@@ -306,6 +307,7 @@ class Ui(QtWidgets.QMainWindow):
         self.timerTouch.start()
         self.sendSignal()
         self.timerMilliseconds.start()
+        self.window.timeLabel.setStyleSheet('color: rgb(255, 255, 255);')
 
     def touchButtonReleased(self):
         if self.timerTouch.isActive():
@@ -313,6 +315,7 @@ class Ui(QtWidgets.QMainWindow):
             self.stopSendSignal()
             self.window.timeLabel.setText('0.00')
             self.timerMilliseconds.stop()
+            self.window.timeLabel.setStyleSheet('color: rgb(35, 31, 32);')
 
     def oneCupClick(self):
         if self.twoCupsClicked:
@@ -320,7 +323,7 @@ class Ui(QtWidgets.QMainWindow):
         self.oneCupClicked = not self.oneCupClicked
         if self.oneCupClicked:
             self.window.oneCupButton.setStyleSheet('QPushButton {'
-                                                   'background-color: rgb(235, 235, 235);'
+                                                   'background-color: rgb(200, 200, 200);'
                                                    'color: rgb(0, 0, 0); border-radius:  80px;'
                                                    'border-style: solid; border-width: 15px;'
                                                    'border-color: rgb(254, 205, 84);'
@@ -360,7 +363,7 @@ class Ui(QtWidgets.QMainWindow):
         self.twoCupsClicked = not self.twoCupsClicked
         if self.twoCupsClicked:
             self.window.twoCupsButton.setStyleSheet('QPushButton {'
-                                                    'background-color: rgb(235, 235, 235);'
+                                                    'background-color: rgb(200, 200, 200);'
                                                     'color: rgb(0, 0, 0); border-radius:  80px;'
                                                     'border-style: solid; border-width: 15px;'
                                                     'border-color: rgb(254, 205, 84);'
@@ -484,13 +487,13 @@ class Ui(QtWidgets.QMainWindow):
 
     @staticmethod
     def sendSignal():
-        GPIO.output(13, True)
-        # print(1)
+        # GPIO.output(13, True)
+        print(1)
 
     @staticmethod
     def stopSendSignal():
-        GPIO.output(13, False)
-        # print(0)
+        # GPIO.output(13, False)
+        print(0)
 
 
 def main():

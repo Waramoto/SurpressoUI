@@ -59,8 +59,14 @@ class Ui(QtWidgets.QMainWindow):
         self.getClock()
         self.getLanguage()
 
-        self.window.timeLabel = self.findChild(QLabel, 'timeLabel')
-        self.window.timeLabel.setStyleSheet('color: rgb(35, 31, 32);')
+        self.window.timeTouchLabel = self.findChild(QLabel, 'timeTouchLabel')
+        self.window.timeTouchLabel.setStyleSheet('color: rgb(35, 31, 32);')
+
+        self.window.timeOneCupLabel = self.findChild(QLabel, 'timeOneCupLabel')
+        self.window.timeOneCupLabel.setStyleSheet('color: rgb(35, 31, 32);')
+
+        self.window.timeTwoCupsLabel = self.findChild(QLabel, 'timeTwoCupsLabel')
+        self.window.timeTwoCupsLabel.setStyleSheet('color: rgb(35, 31, 32);')
 
         self.window.clockButton = self.findChild(QPushButton, 'clockButton')
         self.window.clockButton.setText((datetime.now() + timedelta(seconds=self.clock)).strftime('%H:%M:%S'))
@@ -296,8 +302,15 @@ class Ui(QtWidgets.QMainWindow):
         self.mainApp()
 
     def updateStopwatch(self):
-        ms = abs(30000 - self.timerTouch.remainingTime())
-        self.window.timeLabel.setText(f'{format(ms / 1000, ".2f")}')
+        if self.timerTouch.isActive():
+            ms = abs(30000 - self.timerTouch.remainingTime())
+            self.window.timeTouchLabel.setText(f'{format(ms / 1000, ".2f")}')
+        elif self.oneCupClicked:
+            ms = self.timerOneCup.remainingTime()
+            self.window.timeOneCupLabel.setText(f'{format(ms / 1000, ".2f")}')
+        elif self.twoCupsClicked:
+            ms = self.timerTwoCups.remainingTime()
+            self.window.timeTwoCupsLabel.setText(f'{format(ms / 1000, ".2f")}')
 
     def touchButtonPressed(self):
         if self.twoCupsClicked:
@@ -307,15 +320,15 @@ class Ui(QtWidgets.QMainWindow):
         self.timerTouch.start()
         self.sendSignal()
         self.timerMilliseconds.start()
-        self.window.timeLabel.setStyleSheet('color: rgb(255, 255, 255);')
+        self.window.timeTouchLabel.setStyleSheet('color: rgb(255, 255, 255);')
 
     def touchButtonReleased(self):
         if self.timerTouch.isActive():
             self.timerTouch.stop()
             self.stopSendSignal()
-            self.window.timeLabel.setText('0.00')
+            self.window.timeTouchLabel.setText('0.00')
             self.timerMilliseconds.stop()
-            self.window.timeLabel.setStyleSheet('color: rgb(35, 31, 32);')
+            self.window.timeTouchLabel.setStyleSheet('color: rgb(35, 31, 32);')
 
     def oneCupClick(self):
         if self.twoCupsClicked:
@@ -328,6 +341,7 @@ class Ui(QtWidgets.QMainWindow):
                                                    'border-style: solid; border-width: 15px;'
                                                    'border-color: rgb(254, 205, 84);'
                                                    '}')
+            self.window.timeOneCupLabel.setStyleSheet('color: rgb(255, 255, 255);')
             t = ''
             try:
                 with open('config/duration.txt', 'r') as file:
@@ -346,6 +360,7 @@ class Ui(QtWidgets.QMainWindow):
                 t = '2999'
             self.timerOneCup.setInterval(int(t) * 10)
             self.timerOneCup.start()
+            self.timerMilliseconds.start()
             self.sendSignal()
         else:
             self.window.oneCupButton.setStyleSheet('QPushButton {'
@@ -354,7 +369,9 @@ class Ui(QtWidgets.QMainWindow):
                                                    'border-style: solid; border-width: 15px;'
                                                    'border-color: rgb(254, 205, 84);'
                                                    '}')
+            self.window.timeOneCupLabel.setStyleSheet('color: rgb(35, 31, 32);')
             self.timerOneCup.stop()
+            self.timerMilliseconds.stop()
             self.stopSendSignal()
 
     def twoCupsClick(self):
@@ -368,6 +385,7 @@ class Ui(QtWidgets.QMainWindow):
                                                     'border-style: solid; border-width: 15px;'
                                                     'border-color: rgb(254, 205, 84);'
                                                     '}')
+            self.window.timeTwoCupsLabel.setStyleSheet('color: rgb(255, 255, 255);')
             t = ''
             try:
                 with open('config/duration.txt', 'r') as file:
@@ -388,6 +406,7 @@ class Ui(QtWidgets.QMainWindow):
                 t = '2999'
             self.timerTwoCups.setInterval(int(t) * 10)
             self.timerTwoCups.start()
+            self.timerMilliseconds.start()
             self.sendSignal()
         else:
             self.window.twoCupsButton.setStyleSheet('QPushButton {'
@@ -396,7 +415,9 @@ class Ui(QtWidgets.QMainWindow):
                                                     'border-style: solid; border-width: 15px;'
                                                     'border-color: rgb(254, 205, 84);'
                                                     '}')
+            self.window.timeTwoCupsLabel.setStyleSheet('color: rgb(35, 31, 32);')
             self.timerTwoCups.stop()
+            self.timerMilliseconds.stop()
             self.stopSendSignal()
 
     def increaseNumClock(self, num_label):
